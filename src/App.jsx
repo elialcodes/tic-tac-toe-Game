@@ -1,20 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Square from './components/Square';
 import WinnerModal from './components/WinnerModal';
-import { turns, winnerCombos } from './constants';
+import { cells, turns, winnerCombos } from './constants';
+import { get, set } from './services/localStorage';
 import confetti from 'canvas-confetti';
 
 function App() {
-  //ESTADOS:
+  //ESTADOS (siempre en el cuerpo del componente, nunca dentro de if, un loop...etc):
 
-  //un array de 9 elementos y pedimos que llene todos los elementos con null
-  const [board, setBoard] = useState(Array(9).fill(null));
+  //variable del tablero: tomaremos primero lo que haya en localStorage,
+  //si no, tomaremos el valor por defecto cells
+  const [board, setBoard] = useState(() => {
+    const savedBoard = get('savedBoard', cells);
+    return savedBoard;
+  });
 
-  //variable para establecer el turno
-  const [turn, setTurn] = useState(turns.x);
+  //variable para establecer turno: tomaremos primero lo que haya en localStorage,
+  //si no, tomaremos el valor por defecto turns.x
+  const [turn, setTurn] = useState(() => {
+    const savedTurn = get('savedTurn', turns.x);
+    return savedTurn;
+  });
 
   //variable para establecer el ganador
   const [winner, setWinner] = useState(null);
+
+  //UseEffect para guardar los datos en el local storage,
+  //se ejecutará cuando cambie el array de dependencias "board" y "turn"
+  useEffect(() => {
+    set('savedBoard', board);
+  }, [board]);
+
+  useEffect(() => {
+    set('savedTurn', turn);
+  }, [turn]);
 
   //FUNCIONES DEL JUEGO:
   //función para ver si hay combinación ganadora:
@@ -49,7 +68,10 @@ function App() {
     //2. tratamos la variable turn:
     const newTurn = turn === turns.x ? turns.o : turns.x;
     setTurn(newTurn);
-    //3. comprobamos si hay combinación ganadora o empate según la actualización del nuevo tablero:
+    //3. guardar una partida a medias (tablero y turno) en local storage:
+    // window.localStorage.setItem('board', JSON.stringify(newBoard));
+    // window.localStorage.setItem('turn', turn);
+    //4. comprobamos si hay combinación ganadora o empate según la actualización del nuevo tablero:
     const newWinner = checkWinner(newBoard); //metemos la función en una variable para ver si da true o false:
     if (newWinner) {
       confetti();

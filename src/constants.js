@@ -1,4 +1,8 @@
 //VARIABLES:
+
+//un array de 9 elementos y pedimos que llene todos los elementos con null
+export const cells = Array(9).fill(null);
+
 export const turns = {
   x: 'X',
   o: 'O',
