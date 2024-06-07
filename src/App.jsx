@@ -32,11 +32,11 @@ function App() {
 
   //FUNCIONES DEL JUEGO:
   //función para ver si hay combinación ganadora:
-  const checkWinner = (cell) => {
+  const checkWinner = (arrayCells) => {
     for (const combo of winnerCombos) {
-      const [a, b, c] = combo; //sacamos de cada combos 3 constantes: a, b, c
-      if (cell[a] && cell[a] === cell[b] && cell[a] === cell[c]) {
-        return cell[a];
+      const [a, b, c] = combo; //en cada combo sacamos 3 constantes: a, b, c
+      if (arrayCells[a] && arrayCells[a] === arrayCells[b] && arrayCells[a] === arrayCells[c]) {
+        return arrayCells[a]; //devolvera X o O
       }
     }
     return null; //si no hay combinación ganadora
@@ -52,14 +52,14 @@ function App() {
     if (newBoard[index] || winner) {
       return;
     }
-    //elemento del nuevo array que dejará de ser null y tendrá el valor que tenga turn en ese momento
+    //elemento del nuevo array que era null y tendrá el valor que tenga turn en ese momento:
     newBoard[index] = turn;
-    setBoard(newBoard);
+    setBoard(newBoard); //vamos actualizando el array de celdas del tablero
     //2. tratamos la variable turn:
     const newTurn = turn === turns.x ? turns.o : turns.x;
     setTurn(newTurn);
     //3. comprobamos si hay combinación ganadora según la actualización del nuevo tablero:
-    const newWinner = checkWinner(newBoard);
+    const newWinner = checkWinner(newBoard); //metemos la función en una variable para ver si da true:
     if (newWinner) {
       setWinner(newWinner);
     }
