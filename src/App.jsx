@@ -1,24 +1,10 @@
 import { useState } from 'react';
-import Square from './Square';
+import Square from './components/Square';
+import WinnerModal from './components/WinnerModal';
+import { turns, winnerCombos } from './constants';
+import confetti from 'canvas-confetti';
 
 function App() {
-  //VARIABLES:
-  const turns = {
-    x: 'X',
-    o: 'O',
-  };
-
-  const winnerCombos = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-
   //ESTADOS:
 
   //un array de 9 elementos y pedimos que llene todos los elementos con null
@@ -42,7 +28,12 @@ function App() {
     return null; //si no hay combinación ganadora
   };
 
-  //función para actualizar el tablero:
+  //función para ver si hay un empate, comprobamos que todas las celdas tengan valor distinto de null
+  const checkEndGame = (arrayCells) => {
+    return arrayCells.every((cell) => cell !== null);
+  };
+
+  //función para ir actualizando el tablero con cada click del usuario:
   const updateBoard = (index) => {
     //1. tratamos la variable board:
     //nuevo array con la variable de estado (es importante meterlo en otro array para no alterar el estado)
@@ -58,18 +49,33 @@ function App() {
     //2. tratamos la variable turn:
     const newTurn = turn === turns.x ? turns.o : turns.x;
     setTurn(newTurn);
-    //3. comprobamos si hay combinación ganadora según la actualización del nuevo tablero:
-    const newWinner = checkWinner(newBoard); //metemos la función en una variable para ver si da true:
+    //3. comprobamos si hay combinación ganadora o empate según la actualización del nuevo tablero:
+    const newWinner = checkWinner(newBoard); //metemos la función en una variable para ver si da true o false:
     if (newWinner) {
-      setWinner(newWinner); //el ganador se establece con X o O
+      confetti();
+      setWinner(newWinner); //el ganador se setea con X o O
+    } else if (checkEndGame(newBoard)) {
+      // con cada click vamos comprobamos que si las celdas tienen un valor distinto a null
+      setWinner(false); // el ganador se setea con false
     }
+  };
+
+  //función volver a jugar, seteamos los estados:
+  const handleReset = () => {
+    setBoard(Array(9).fill(null));
+    setTurn(turns.x);
+    setWinner(null);
   };
 
   return (
     <main className="board">
       <h1>tic tac toe</h1>
+      <button onClick={handleReset}>Reset</button>
       <section className="game">
         {board.map((_, index) => {
+          // poner _ es una convención para indicar que esa variable no se va a utilizar,
+          // en este caso indica el valor actual del elemento del array,
+          // que en map es obligatorio indicarlo
           return (
             <Square key={index} index={index} updateBoard={updateBoard}>
               {/* cada componente Square tiene dentro children, lo que nos ayuda a
@@ -84,11 +90,7 @@ function App() {
         <Square isSelected={turn === turns.x}>{turns.x}</Square>
         <Square isSelected={turn === turns.o}>{turns.o}</Square>
       </section>
-      <section className="winner">
-        <div className="text">
-          <h2>{winner ? `El ganador es: ${winner}` : 'Empate'}</h2>
-        </div>
-      </section>
+      <WinnerModal handleReset={handleReset} winner={winner}></WinnerModal>
     </main>
   );
 }

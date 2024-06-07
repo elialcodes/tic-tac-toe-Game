@@ -38,12 +38,12 @@ body {
 
 .board h1 {
   color: #eee;
-  margin-bottom: 16px;
+  margin-bottom: 40px;
 }
 
 .board button {
   padding: 8px 12px;
-  margin: 25px;
+  /* margin: 25px; */
   background: transparent;
   border: 2px solid #eee;
   color: #eee;
@@ -63,6 +63,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+  margin-top: 30px;
 }
 
 .turn {
@@ -103,20 +104,21 @@ body {
 .winner .text {
   background: #111;
   height: 200px;
-  width: 250px;
+  width: 300px;
   border: 2px solid #eee;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 }
 
 .winner .win {
   margin: 0 auto;
   width: fit-content;
   border: 2px solid #eee;
+  background-color: #09f;
   border-radius: 10px;
   display: flex;
   gap: 15px;
