@@ -4,8 +4,8 @@ import Square from './Square';
 function App() {
   //VARIABLES:
   const turns = {
-    x: 'x',
-    o: 'o',
+    x: 'X',
+    o: 'O',
   };
 
   const winnerCombos = [
@@ -61,7 +61,7 @@ function App() {
     //3. comprobamos si hay combinación ganadora según la actualización del nuevo tablero:
     const newWinner = checkWinner(newBoard); //metemos la función en una variable para ver si da true:
     if (newWinner) {
-      setWinner(newWinner);
+      setWinner(newWinner); //el ganador se establece con X o O
     }
   };
 
@@ -83,6 +83,11 @@ function App() {
         {/* aquí square tiene como children el valor de la variable turns */}
         <Square isSelected={turn === turns.x}>{turns.x}</Square>
         <Square isSelected={turn === turns.o}>{turns.o}</Square>
+      </section>
+      <section className="winner">
+        <div className="text">
+          <h2>{winner ? `El ganador es: ${winner}` : 'Empate'}</h2>
+        </div>
       </section>
     </main>
   );

@@ -93,15 +93,17 @@ body {
   height: 100vh;
   top: 0;
   left: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  padding-bottom: 5vh;
   background-color: rgba(0, 0, 0, 0.7);
 }
 
 .winner .text {
   background: #111;
-  height: 300px;
-  width: 320px;
+  height: 200px;
+  width: 250px;
   border: 2px solid #eee;
   border-radius: 10px;
   display: flex;
