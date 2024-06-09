@@ -1,49 +1,67 @@
 import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
-import { get, set } from './services/localStorage';
+import {
+  getBoardStorage,
+  getTurnStorage,
+  getWinnerStorage,
+  setBoardStorage,
+  setTurnStorage,
+  setWinnerStorage,
+} from './services/localStorage';
 import Square from './components/Square';
 import WinnerModal from './components/WinnerModal';
 import { cells, turns, winnerCombos } from './constants';
 
 type Board = (string | null)[];
-// type Turn = { x: string; y: string };
+type Winner = string | null;
 
-function App() {
+function App(): JSX.Element {
   //ESTADOS (siempre en el cuerpo del componente, nunca dentro de if, un loop...etc):
 
   //variable del tablero: tomaremos primero lo que haya en localStorage,
   //si no, tomaremos el valor por defecto cells
-  const [board, setBoard] = useState(() => {
-    const savedBoard = get('savedBoard', cells);
+  const [board, setBoard] = useState<(string | null)[]>(() => {
+    const savedBoard = getBoardStorage('savedBoard', cells);
     return savedBoard;
   });
 
   //variable para establecer turno: tomaremos primero lo que haya en localStorage,
   //si no, tomaremos el valor por defecto turns.x
-  const [turn, setTurn] = useState(() => {
-    const savedTurn = get('savedTurn', turns.x);
+  const [turn, setTurn] = useState<string>(() => {
+    const savedTurn = getTurnStorage('savedTurn', turns.x);
     return savedTurn;
   });
 
   //variable para establecer el ganador
-  const [winner, setWinner] = useState(null);
+  const [winner, setWinner] = useState<Winner>(() => {
+    const savedWinner = getWinnerStorage('savedWinner', null);
+    return savedWinner;
+  });
 
   //UseEffect para guardar los datos en el local storage,
   //se ejecutará cuando cambie el array de dependencias "board" y "turn"
   useEffect(() => {
-    set('savedBoard', board);
+    setBoardStorage('savedBoard', board);
   }, [board]);
 
   useEffect(() => {
-    set('savedTurn', turn);
+    setTurnStorage('savedTurn', turn);
   }, [turn]);
+
+  useEffect(() => {
+    setWinnerStorage('savedWinner', winner);
+  }, [winner]);
 
   //FUNCIONES DEL JUEGO:
   //función para ver si hay combinación ganadora:
-  const checkWinner = (arrayCells: Board) => {
+  const checkWinner = (arrayCells: Board): string | null => {
     for (const combo of winnerCombos) {
       const [a, b, c] = combo; //en cada combo sacamos 3 constantes: a, b, c
-      if (arrayCells[a] && arrayCells[a] === arrayCells[b] && arrayCells[a] === arrayCells[c]) {
+      if (
+        arrayCells[a] !== null &&
+        arrayCells[a] === arrayCells[b] &&
+        arrayCells[a] === arrayCells[c]
+      ) {
         return arrayCells[a]; //devolvera X o O
       }
     }
@@ -51,12 +69,13 @@ function App() {
   };
 
   //función para ver si hay un empate, comprobamos que todas las celdas tengan valor distinto de null
-  const checkEndGame = (arrayCells: Board) => {
+  //nos devuelve true o false
+  const checkEndGame = (arrayCells: Board): boolean => {
     return arrayCells.every((cell) => cell !== null);
   };
 
   //función para ir actualizando el tablero con cada click del usuario:
-  const updateBoard = (index: number) => {
+  const updateBoard = (index: number): void => {
     //1. tratamos la variable board:
     //nuevo array con la variable de estado (es importante meterlo en otro array para no alterar el estado)
     const newBoard: Board = [...board];
@@ -71,22 +90,19 @@ function App() {
     //2. tratamos la variable turn:
     const newTurn = turn === turns.x ? turns.o : turns.x;
     setTurn(newTurn);
-    //3. guardar una partida a medias (tablero y turno) en local storage:
-    // window.localStorage.setItem('board', JSON.stringify(newBoard));
-    // window.localStorage.setItem('turn', turn);
-    //4. comprobamos si hay combinación ganadora o empate según la actualización del nuevo tablero:
+    //3. comprobamos si hay combinación ganadora o empate según la actualización del nuevo tablero:
     const newWinner = checkWinner(newBoard); //metemos la función en una variable para ver si da true o false:
     if (newWinner) {
-      confetti();
-      setWinner(newWinner); //el ganador se setea con X o O
+      confetti(); //si newWinner es true se lanza el confetti
+      setWinner(newWinner); //si newWinner es true, el ganador se setea con X o O
     } else if (checkEndGame(newBoard)) {
-      // con cada click vamos comprobamos que si las celdas tienen un valor distinto a null
-      setWinner(false); // el ganador se setea con false
+      // ejecutamos checkEndGame para comprobar si todas las celdas tienen un valor distinto a null
+      setWinner(''); // el ganador se setea con " ", porque todavía no existe
     }
   };
 
   //función volver a jugar, seteamos los estados:
-  const handleReset = () => {
+  const handleReset = (): void => {
     setBoard(Array(9).fill(null));
     setTurn(turns.x);
     setWinner(null);
@@ -97,10 +113,10 @@ function App() {
       <h1>tic tac toe</h1>
       <button onClick={handleReset}>Reset</button>
       <section className="game">
-        {board.map((_, index) => {
+        {board.map((_: string | null, index: number) => {
           // poner _ es una convención para indicar que esa variable no se va a utilizar,
           // en este caso indica el valor actual del elemento del array,
-          // que en map es obligatorio indicarlo
+          // que en map es obligatorio indicarlo, y pintamos lo siguiente:
           return (
             <Square key={index} index={index} updateBoard={updateBoard}>
               {/* cada componente Square tiene dentro children, lo que nos ayuda a

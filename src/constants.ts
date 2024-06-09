@@ -8,6 +8,7 @@ export const turns: { x: string; o: string } = {
   o: 'O',
 };
 
+// export const winners: null;
 export const winnerCombos: number[][] = [
   [0, 1, 2],
   [3, 4, 5],
