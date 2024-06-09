@@ -1,7 +1,7 @@
 import Square from './Square';
 
 interface WinnerModalProps {
-  winner: null | string | boolean;
+  winner: string | null;
   handleReset: () => void;
 }
 
