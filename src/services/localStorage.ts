@@ -2,7 +2,7 @@
 //si no hay nada, la función devuelve el valor defaultValue
 //(la variable de estado de App), así esta comprobación
 //no la tenemos que hacer en App.js
-export const get = (key, defaultValue) => {
+export const get = (key: string, defaultValue: (string | null)[]) => {
   const localStorageData = localStorage.getItem(key);
   if (localStorageData === null) {
     return defaultValue;
@@ -13,7 +13,7 @@ export const get = (key, defaultValue) => {
 
 //función que guarda el nombre de un objeto (la key)
 //y su valor en el local storage
-export const set = (key, value) => {
+export const set = (key: string, value: string | null[]) => {
   const localStorageData = JSON.stringify(value);
   localStorage.setItem(key, localStorageData);
 };

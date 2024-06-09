@@ -1,6 +1,11 @@
 import Square from './Square';
 
-function WinnerModal({ winner, handleReset }) {
+interface WinnerModalProps {
+  winner: null | string | boolean;
+  handleReset: () => void;
+}
+
+function WinnerModal({ winner, handleReset }: WinnerModalProps): JSX.Element {
   //no hay un ganador, nos salimos y no retornamos nada
   if (winner === null) {
     return null;

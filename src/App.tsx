@@ -5,6 +5,9 @@ import { cells, turns, winnerCombos } from './constants';
 import { get, set } from './services/localStorage';
 import confetti from 'canvas-confetti';
 
+type Board = (string | null)[];
+type Cell = null[];
+
 function App() {
   //ESTADOS (siempre en el cuerpo del componente, nunca dentro de if, un loop...etc):
 
