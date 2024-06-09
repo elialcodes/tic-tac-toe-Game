@@ -1,15 +1,17 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 interface SquareProps {
   children: ReactNode;
-  index: number;
-  isSelected: boolean;
-  updateBoard: (index: number) => void;
+  index?: number;
+  isSelected?: boolean;
+  updateBoard?: (index: number) => void;
 }
 
-function Square({ children, index, isSelected, updateBoard }: SquareProps): JSX.Element {
+function Square({ children, index, isSelected = false, updateBoard }: SquareProps): JSX.Element {
   const handleClick = () => {
-    updateBoard(index);
+    if (updateBoard && index !== undefined) {
+      updateBoard(index);
+    }
   };
   return (
     //añadimos 2 clases: square e isSelected en condicional

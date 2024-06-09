@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
+import confetti from 'canvas-confetti';
+import { get, set } from './services/localStorage';
 import Square from './components/Square';
 import WinnerModal from './components/WinnerModal';
 import { cells, turns, winnerCombos } from './constants';
-import { get, set } from './services/localStorage';
-import confetti from 'canvas-confetti';
 
 type Board = (string | null)[];
-type Cell = null[];
+// type Turn = { x: string; y: string };
 
 function App() {
   //ESTADOS (siempre en el cuerpo del componente, nunca dentro de if, un loop...etc):
@@ -40,7 +40,7 @@ function App() {
 
   //FUNCIONES DEL JUEGO:
   //función para ver si hay combinación ganadora:
-  const checkWinner = (arrayCells) => {
+  const checkWinner = (arrayCells: Board) => {
     for (const combo of winnerCombos) {
       const [a, b, c] = combo; //en cada combo sacamos 3 constantes: a, b, c
       if (arrayCells[a] && arrayCells[a] === arrayCells[b] && arrayCells[a] === arrayCells[c]) {
@@ -51,15 +51,15 @@ function App() {
   };
 
   //función para ver si hay un empate, comprobamos que todas las celdas tengan valor distinto de null
-  const checkEndGame = (arrayCells) => {
+  const checkEndGame = (arrayCells: Board) => {
     return arrayCells.every((cell) => cell !== null);
   };
 
   //función para ir actualizando el tablero con cada click del usuario:
-  const updateBoard = (index) => {
+  const updateBoard = (index: number) => {
     //1. tratamos la variable board:
     //nuevo array con la variable de estado (es importante meterlo en otro array para no alterar el estado)
-    const newBoard = [...board];
+    const newBoard: Board = [...board];
     //si newBoard[index] es truthy (ya tiene valor y no es null) return para no sobreescribir con X o O
     //si winner es truthy (ya tiene valor y no es null), significa que alguien ha ganado, asi que return
     if (newBoard[index] || winner) {
