@@ -1,15 +1,15 @@
 //VARIABLES:
 
 //un array de 9 elementos y pedimos que llene todos los elementos con null
-export const cells: (string | null)[] = Array(9).fill(null);
+export const CELLS: (string | null)[] = Array(9).fill(null);
 
-export const turns: { x: string; o: string } = {
+export const TURNS: { x: string; o: string } = {
   x: 'X',
   o: 'O',
 };
 
 // export const winners: null;
-export const winnerCombos: number[][] = [
+export const WINNERCOMBOS: number[][] = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],

@@ -8,25 +8,25 @@ import {
 } from './services/localStorage';
 import Square from './components/Square';
 import WinnerModal from './components/WinnerModal';
-import { cells, turns, winnerCombos } from './constants';
+import { CELLS, TURNS, WINNERCOMBOS } from './constants';
 
 type Board = (string | null)[];
-type Winner = string | null | false;
+type Winner = string | null | boolean;
 
 function App(): JSX.Element {
   //ESTADOS (siempre en el cuerpo del componente, nunca dentro de if, un loop...etc):
 
   //variable del tablero: tomaremos primero lo que haya en localStorage,
-  //si no, tomaremos el valor por defecto cells
+  //si no, tomaremos el valor por defecto CELLS
   const [board, setBoard] = useState<(string | null)[]>(() => {
-    const savedBoard = getBoardStorage('savedBoard', cells);
+    const savedBoard = getBoardStorage('savedBoard', CELLS);
     return savedBoard;
   });
 
   //variable para establecer turno: tomaremos primero lo que haya en localStorage,
-  //si no, tomaremos el valor por defecto turns.x
+  //si no, tomaremos el valor por defecto TURNS.x
   const [turn, setTurn] = useState<string>(() => {
-    const savedTurn = getTurnStorage('savedTurn', turns.x);
+    const savedTurn = getTurnStorage('savedTurn', TURNS.x);
     return savedTurn;
   });
 
@@ -46,7 +46,7 @@ function App(): JSX.Element {
   //FUNCIONES DEL JUEGO:
   //función para ver si hay combinación ganadora:
   const checkWinner = (arrayCells: Board): string | null => {
-    for (const combo of winnerCombos) {
+    for (const combo of WINNERCOMBOS) {
       const [a, b, c] = combo; //en cada combo sacamos 3 constantes: a, b, c
       if (
         arrayCells[a] !== null &&
@@ -79,7 +79,7 @@ function App(): JSX.Element {
     newBoard[index] = turn;
     setBoard(newBoard); //vamos actualizando el array de celdas del tablero
     //2. tratamos la variable turn:
-    const newTurn = turn === turns.x ? turns.o : turns.x;
+    const newTurn = turn === TURNS.x ? TURNS.o : TURNS.x;
     setTurn(newTurn);
     //3. comprobamos si hay combinación ganadora o empate según la actualización del nuevo tablero:
     const newWinner = checkWinner(newBoard); //metemos la función en una variable para ver si da true o false:
@@ -95,7 +95,7 @@ function App(): JSX.Element {
   //función volver a jugar, seteamos los estados:
   const handleReset = (): void => {
     setBoard(Array(9).fill(null));
-    setTurn(turns.x);
+    setTurn(TURNS.x);
     setWinner(null);
   };
 
@@ -118,9 +118,9 @@ function App(): JSX.Element {
         })}
       </section>
       <section className="turn">
-        {/* aquí square tiene como children el valor de la variable turns */}
-        <Square isSelected={turn === turns.x}>{turns.x}</Square>
-        <Square isSelected={turn === turns.o}>{turns.o}</Square>
+        {/* aquí square tiene como children el valor de la variable TURNS */}
+        <Square isSelected={turn === TURNS.x}>{TURNS.x}</Square>
+        <Square isSelected={turn === TURNS.o}>{TURNS.o}</Square>
       </section>
       <WinnerModal handleReset={handleReset} winner={winner}></WinnerModal>
     </main>
