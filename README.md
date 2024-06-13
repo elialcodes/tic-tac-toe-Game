@@ -1,4 +1,4 @@
-# TIC TAC TOE
+# TIC TAC TOE :x: :trophy: :o: :four_leaf_clover:
 
 Welcome to my Tic Tac Toe, a simple but really funny game for two players. I have learned to work with TypeScript in React.
 
@@ -6,7 +6,7 @@ Welcome to my Tic Tac Toe, a simple but really funny game for two players. I hav
 
 - the X turn starts the game by default
 - the screen shows how the turn changes automatically every time
-- there are 3 posibilities: X winner, O winner or tie
+- there are 3 posibilities: winner X , winner O or tie
 - when the game is over, a modal appers to show the final result and a play again button
 - in the middle of a game, the user can restart it with a reset button
 - the web uses local storage to save the game, so if the page is updated, it renders the lastest state of the game
