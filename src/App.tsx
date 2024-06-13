@@ -13,14 +13,14 @@ import WinnerModal from './components/WinnerModal';
 import { CELLS, TURNS, WINNERCOMBOS } from './constants';
 
 type Board = (string | null)[];
-type Winner = string | null | boolean;
+type Winner = string | null;
 
 function App(): JSX.Element {
   //ESTADOS (siempre en el cuerpo del componente, nunca dentro de if, un loop...etc):
 
   //variable del tablero: tomaremos primero lo que haya en localStorage,
   //si no, tomaremos el valor por defecto CELLS
-  const [board, setBoard] = useState<(string | null)[]>(() => {
+  const [board, setBoard] = useState<Board>(() => {
     const savedBoard = getBoardStorage('savedBoard', CELLS);
     return savedBoard;
   });

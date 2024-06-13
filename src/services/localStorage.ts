@@ -42,6 +42,12 @@ export const setTurnStorage = (key: string, value: string): void => {
   localStorage.setItem(key, value);
 };
 
-export const setWinnerStorage = (key: string, value: string): void => {
-  localStorage.setItem(key, value);
+export const setWinnerStorage = (key: string, value: string | null): void => {
+  //si value es null, lo tenemos que pasar a string para guardarlo en local storage
+  if (value === null) {
+    const localStorageData = JSON.stringify(value);
+    localStorage.setItem(key, localStorageData);
+  } else {
+    localStorage.setItem(key, value);
+  }
 };
