@@ -23,6 +23,11 @@ export const getTurnStorage = (key: string, defaultValue: string): string => {
   }
 };
 
+// export const getWinnerStorage = (key: string, defaultValue: string | null): string | null => {
+//   const localStorageData = localStorage.getItem(key);
+//   return localStorageData;
+// };
+
 //funciones que guardan el nombre de un objeto (la key)
 //y su valor en el local storage
 export const setBoardStorage = (key: string, value: (string | null)[]): void => {
@@ -31,6 +36,10 @@ export const setBoardStorage = (key: string, value: (string | null)[]): void => 
 };
 
 export const setTurnStorage = (key: string, value: string): void => {
-  const localStorageData = JSON.stringify(value);
   localStorage.setItem(key, value);
 };
+
+// export const setWinnerStorage = (key: string, value: string | null): void => {
+//   const localStorageData = JSON.stringify(value);
+//   localStorage.setItem(key, localStorageData);
+// };
