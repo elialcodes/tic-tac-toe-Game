@@ -13,7 +13,7 @@ function WinnerModal({ winner, handleReset }: WinnerModalProps): JSX.Element | n
   return (
     <section className="winner">
       <div className="text">
-        <h2>{winner ? `El ganador es: ${winner}` : 'Empate'}</h2>
+        <h2>{winner ? `El ganador es:` : 'Empate'}</h2>
         <div className={winner ? 'win' : ''}>{winner && <Square>{winner}</Square>}</div>
         <button onClick={handleReset}>Comenzar</button>
       </div>

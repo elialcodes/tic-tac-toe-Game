@@ -6,7 +6,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  /* color: rgba(255, 255, 255, 0.87); */
   background-color: #242424;
 
   font-synthesis: none;
@@ -37,15 +37,15 @@ body {
 }
 
 .board h1 {
-  color: #eee;
+  color: fuchsia;
+  font-size: 50px;
   margin-bottom: 40px;
 }
 
 .board button {
   padding: 8px 12px;
-  /* margin: 25px; */
   background: transparent;
-  border: 2px solid #eee;
+  border: 2px solid lightseagreen;
   color: #eee;
   width: 100px;
   border-radius: 5px;
@@ -85,7 +85,7 @@ body {
 
 .square.is-selected {
   color: #fff;
-  background: #09f;
+  background: fuchsia;
 }
 
 .winner {
@@ -105,7 +105,7 @@ body {
   background: #111;
   height: 200px;
   width: 300px;
-  border: 2px solid #eee;
+  border: 2px solid lightseagreen;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -117,8 +117,8 @@ body {
 .winner .win {
   margin: 0 auto;
   width: fit-content;
-  border: 2px solid #eee;
-  background-color: #09f;
+  border: 2px solid fuchsia;
+  background-color: black;
   border-radius: 10px;
   display: flex;
   gap: 15px;
@@ -127,6 +127,7 @@ body {
 .square {
   width: 100px;
   height: 100px;
+  color: fuchsia;
   border: 2px solid #eee;
   border-radius: 5px;
   display: grid;
