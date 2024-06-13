@@ -3,8 +3,10 @@ import confetti from 'canvas-confetti';
 import {
   getBoardStorage,
   getTurnStorage,
+  getWinnerStorage,
   setBoardStorage,
   setTurnStorage,
+  setWinnerStorage,
 } from './services/localStorage';
 import Square from './components/Square';
 import WinnerModal from './components/WinnerModal';
@@ -30,11 +32,15 @@ function App(): JSX.Element {
     return savedTurn;
   });
 
-  //variable para establecer el ganador
-  const [winner, setWinner] = useState<Winner>(null);
+  //variable para establecer el ganador: tomaremos primero lo que haya en localStorage,
+  //si no, tomaremos el valor por null
+  const [winner, setWinner] = useState<Winner>(() => {
+    const savedWinner = getWinnerStorage('savedWinner', null);
+    return savedWinner;
+  });
 
   //UseEffect para guardar los datos en el local storage,
-  //se ejecutará cuando cambie el array de dependencias "board" y "turn"
+  //se ejecutará cuando cambie el array de dependencias "board", "turn", "winner"
   useEffect(() => {
     setBoardStorage('savedBoard', board);
   }, [board]);
@@ -42,6 +48,10 @@ function App(): JSX.Element {
   useEffect(() => {
     setTurnStorage('savedTurn', turn);
   }, [turn]);
+
+  useEffect(() => {
+    setWinnerStorage('savedWinner', winner);
+  }, [winner]);
 
   //FUNCIONES DEL JUEGO:
   //función para ver si hay combinación ganadora:
@@ -88,7 +98,7 @@ function App(): JSX.Element {
       setWinner(newWinner); //si newWinner es true, el ganador se setea con X o O
     } else if (checkEndGame(newBoard)) {
       // ejecutamos checkEndGame para comprobar si todas las celdas tienen un valor distinto a null
-      setWinner(false); // el ganador se setea con " ", porque todavía no existe
+      setWinner(''); // el ganador se setea con " ", porque todavía no existe
     }
   };
 

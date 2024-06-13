@@ -6,15 +6,15 @@ interface WinnerModalProps {
 }
 
 function WinnerModal({ winner, handleReset }: WinnerModalProps): JSX.Element | null {
-  //no hay un ganador, nos salimos y no retornamos nada
+  //si todavía no hay un ganador, nos salimos y no se renderiza nada
   if (winner === null) {
     return null;
   }
   return (
     <section className="winner">
       <div className="text">
-        <h2>{winner === false ? 'Empate' : `El ganador es: ${winner}`}</h2>
-        <div className={winner === false ? '' : 'win'}>{winner && <Square>{winner}</Square>}</div>
+        <h2>{winner ? `El ganador es: ${winner}` : 'Empate'}</h2>
+        <div className={winner ? 'win' : ''}>{winner && <Square>{winner}</Square>}</div>
         <button onClick={handleReset}>Comenzar</button>
       </div>
     </section>
