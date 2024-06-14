@@ -10,7 +10,6 @@ export const TURNS = {
   o: 'o',
 };
 
-// export const winners: null;
 export const WINNERCOMBOS: number[][] = [
   [0, 1, 2],
   [3, 4, 5],

@@ -24,24 +24,15 @@ export const getTurnStorage = (key: string, defaultValue: Turn): Turn => {
 
 export const getWinnerStorage = (key: string, defaultValue: Winner): Winner => {
   let localStorageData = localStorage.getItem(key);
-  if (!localStorageData) {
+  if (localStorageData === null) {
     return defaultValue;
   }
   if (localStorageData === 'x' || localStorageData === 'o' || localStorageData === '') {
     return localStorageData;
   } else {
-    return null;
+    return JSON.parse(localStorageData);
   }
 };
-// } else {
-//   return JSON.parse(localStorageData);
-// }
-// } else {
-//   return (localStorageData = null);
-// }
-// if (localStorageData === 'null') {
-//   return JSON.parse(localStorageData);
-// }
 
 //funciones que guardan el nombre de un objeto (la key)
 //y su valor en el local storage
@@ -62,9 +53,4 @@ export const setWinnerStorage = (key: string, value: string | null): void => {
   } else {
     localStorage.setItem(key, value);
   }
-  // } else {
-  //   localStorage.setItem(key, value);
-  // }
-  // const localStorageData = JSON.stringify(value);
-  //localStorage.setItem(key, localStorageData);
 };

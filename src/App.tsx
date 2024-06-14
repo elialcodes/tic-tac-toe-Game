@@ -10,7 +10,7 @@ import {
 } from './services/localStorage';
 import Square from './components/Square';
 import WinnerModal from './components/WinnerModal';
-import { CELLS, TURNS, WINNERCOMBOS } from './constants';
+import { CELLS, WINNERCOMBOS } from './constants';
 import type { Board, Turn, Winner } from './types';
 
 function App(): JSX.Element {

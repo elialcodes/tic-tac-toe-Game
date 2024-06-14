@@ -1,7 +1,8 @@
+import type { Winner } from '../types';
 import Square from './Square';
 
 interface WinnerModalProps {
-  winner: string | null | boolean;
+  winner: Winner;
   handleReset: () => void;
 }
 
@@ -10,11 +11,12 @@ function WinnerModal({ winner, handleReset }: WinnerModalProps): JSX.Element | n
   if (winner === null) {
     return null;
   }
+
   return (
     <section className="winner">
       <div className="text">
-        <h2>{winner ? `El ganador es:` : 'Empate'}</h2>
-        <div className={winner ? 'win' : ''}>{winner && <Square>{winner}</Square>}</div>
+        <h2>{winner === '' ? 'Empate' : `El ganador es:`}</h2>
+        <div className={winner === '' ? '' : 'win'}>{winner && <Square>{winner}</Square>}</div>
         <button onClick={handleReset}>Comenzar</button>
       </div>
     </section>
