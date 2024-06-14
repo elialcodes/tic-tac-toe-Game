@@ -11,9 +11,7 @@ import {
 import Square from './components/Square';
 import WinnerModal from './components/WinnerModal';
 import { CELLS, TURNS, WINNERCOMBOS } from './constants';
-
-type Board = (string | null)[];
-type Winner = string | null;
+import type { Board, Turn, Winner } from './types';
 
 function App(): JSX.Element {
   //ESTADOS (siempre en el cuerpo del componente, nunca dentro de if, un loop...etc):
@@ -26,14 +24,14 @@ function App(): JSX.Element {
   });
 
   //variable para establecer turno: tomaremos primero lo que haya en localStorage,
-  //si no, tomaremos el valor por defecto TURNS.x
-  const [turn, setTurn] = useState<string>(() => {
-    const savedTurn = getTurnStorage('savedTurn', TURNS.x);
+  //si no, tomaremos el valor por defecto "x"
+  const [turn, setTurn] = useState<Turn>(() => {
+    const savedTurn = getTurnStorage('savedTurn', 'x');
     return savedTurn;
   });
 
   //variable para establecer el ganador: tomaremos primero lo que haya en localStorage,
-  //si no, tomaremos el valor por null
+  //si no, tomaremos el valor pr defecto null
   const [winner, setWinner] = useState<Winner>(() => {
     const savedWinner = getWinnerStorage('savedWinner', null);
     return savedWinner;
@@ -54,8 +52,8 @@ function App(): JSX.Element {
   }, [winner]);
 
   //FUNCIONES DEL JUEGO:
-  //función para ver si hay combinación ganadora:
-  const checkWinner = (arrayCells: Board): string | null => {
+  //función para ver si existe combinación ganadora:
+  const checkWinner = (arrayCells: Board): Winner => {
     for (const combo of WINNERCOMBOS) {
       const [a, b, c] = combo; //en cada combo sacamos 3 constantes: a, b, c
       if (
@@ -63,16 +61,16 @@ function App(): JSX.Element {
         arrayCells[a] === arrayCells[b] &&
         arrayCells[a] === arrayCells[c]
       ) {
-        return arrayCells[a]; //devolvera X o O
+        return arrayCells[a]; //devolvera como ganador el valor de esa celda: X o O
       }
     }
     return null; //si no hay combinación ganadora
   };
 
-  //función para ver si hay un empate, comprobamos que todas las celdas tengan valor distinto de null
-  //nos devuelve true o false
+  //función para ver si hay un empate, comprobamos que todas las celdas estén
+  //rellenas con valor distinto de null
   const checkEndGame = (arrayCells: Board): boolean => {
-    return arrayCells.every((cell) => cell !== null);
+    return arrayCells.every((cell) => cell !== null); //devuelve true o false
   };
 
   //función para ir actualizando el tablero con cada click del usuario:
@@ -85,27 +83,32 @@ function App(): JSX.Element {
     if (newBoard[index] || winner) {
       return;
     }
-    //elemento del nuevo array que era null y tendrá el valor que tenga turn en ese momento:
+    //elemento del nuevo array que era null y pasará a tener el valor que tenga turn en ese momento:
     newBoard[index] = turn;
     setBoard(newBoard); //vamos actualizando el array de celdas del tablero
+
     //2. tratamos la variable turn:
-    const newTurn = turn === TURNS.x ? TURNS.o : TURNS.x;
+    //con un ternario le decimos que vaya alternando de valor, si es x que sea o y al revés
+    const newTurn = turn === 'x' ? 'o' : 'x';
     setTurn(newTurn);
+
     //3. comprobamos si hay combinación ganadora o empate según la actualización del nuevo tablero:
-    const newWinner = checkWinner(newBoard); //metemos la función en una variable para ver si da true o false:
+    //metemos la función en una variable para ver si da true o false:
+    const newWinner = checkWinner(newBoard);
     if (newWinner) {
       confetti(); //si newWinner es true se lanza el confetti
       setWinner(newWinner); //si newWinner es true, el ganador se setea con X o O
+      //si checkEndGame devuelve true tras comprobar si todas las celdas tienen un valor
+      //distinto a null hay un empate:
     } else if (checkEndGame(newBoard)) {
-      // ejecutamos checkEndGame para comprobar si todas las celdas tienen un valor distinto a null
-      setWinner(''); // el ganador se setea con " ", porque todavía no existe
+      setWinner(''); // el ganador se setea con "", porque no existe
     }
   };
 
   //función volver a jugar, seteamos los estados:
   const handleReset = (): void => {
     setBoard(Array(9).fill(null));
-    setTurn(TURNS.x);
+    setTurn('x');
     setWinner(null);
   };
 
@@ -122,15 +125,15 @@ function App(): JSX.Element {
             <Square key={index} index={index} updateBoard={updateBoard}>
               {/* cada componente Square tiene dentro children, lo que nos ayuda a
               personalizarlos, aquí será el valor del array board en esa posición */}
-              {board[index]}
+              {board[index]?.toUpperCase()}
             </Square>
           );
         })}
       </section>
       <section className="turn">
         {/* aquí square tiene como children el valor de la variable TURNS */}
-        <Square isSelected={turn === TURNS.x}>{TURNS.x}</Square>
-        <Square isSelected={turn === TURNS.o}>{TURNS.o}</Square>
+        <Square isSelected={turn === 'x'}>X</Square>
+        <Square isSelected={turn === 'o'}>O</Square>
       </section>
       <WinnerModal handleReset={handleReset} winner={winner}></WinnerModal>
     </main>

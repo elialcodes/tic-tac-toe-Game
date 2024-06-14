@@ -1,11 +1,13 @@
 //VARIABLES:
 
-//un array de 9 elementos y pedimos que llene todos los elementos con null
-export const CELLS: (string | null)[] = Array(9).fill(null);
+import { Board } from './types';
 
-export const TURNS: { x: string; o: string } = {
-  x: 'X',
-  o: 'O',
+//un array de 9 elementos y pedimos que llene todos los elementos con null
+export const CELLS: Board = Array(9).fill(null);
+
+export const TURNS = {
+  x: 'x',
+  o: 'o',
 };
 
 // export const winners: null;
