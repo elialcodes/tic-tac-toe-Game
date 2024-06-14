@@ -107,6 +107,7 @@ body {
 
 .winner .text {
   background: #111;
+  color: #eee;
   height: 200px;
   width: 300px;
   border: 2px solid lightseagreen;
