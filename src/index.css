@@ -79,12 +79,17 @@ body {
   width: 70px;
   height: 70px;
   pointer-events: none;
+  place-items: center;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
   border-color: transparent;
 }
 
 .square.is-selected {
   color: #fff;
   background: fuchsia;
+  padding-top: 8px;
 }
 
 .winner {
@@ -119,8 +124,6 @@ body {
   border: 2px solid fuchsia;
   background-color: black;
   border-radius: 10px;
-  display: flex;
-  gap: 15px;
 }
 
 .square {
