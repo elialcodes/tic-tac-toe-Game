@@ -1,10 +1,9 @@
-//funciones que obtiene el local storage
-//si no hay nada, la función devuelve el valor defaultValue
-//(la variable de estado de App), así esta comprobación
+//funciones que obtienen lo que hay guardado en el local storage: si no hay nada,
+//la función devuelve el valor defaultValue (la variable de estado de App),
+//así esta comprobación no la tenemos que hacer en App.
 
 import type { Board, Turn, Winner } from '../types';
 
-//no la tenemos que hacer en App.js
 export const getBoardStorage = (key: string, defaultValue: Board): Board => {
   const localStorageData = localStorage.getItem(key);
   if (localStorageData === null) {
