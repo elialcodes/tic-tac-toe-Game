@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
 import {

@@ -22,7 +22,7 @@ export const getTurnStorage = (key: string, defaultValue: Turn): Turn => {
 };
 
 export const getWinnerStorage = (key: string, defaultValue: Winner): Winner => {
-  let localStorageData = localStorage.getItem(key);
+  const localStorageData = localStorage.getItem(key);
   if (localStorageData === null) {
     return defaultValue;
   }
