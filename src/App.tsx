@@ -102,8 +102,8 @@ function App(): JSX.Element {
       //si newWinner es true se lanza el confetti y el ganador se setea con X o O
       confetti();
       setWinner(newWinner);
-      //si checkEndGame devuelve true tras comprobar si todas las celdas tienen un valor
-      //distinto a null hay un empate:
+      //si todas las celdas tienen un valor y es distinto a null, checkEndGame devuelve
+      //true y hay un empate:
     } else if (checkEndGame(newBoard)) {
       setWinner(''); // el ganador se setea con "", porque no existe
     }
