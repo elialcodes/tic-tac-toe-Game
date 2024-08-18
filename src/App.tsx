@@ -1,4 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
 import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
 import {
@@ -68,15 +67,15 @@ function App(): JSX.Element {
     return null; //si no hay combinación ganadora (hay empate o el juego no terminó)
   };
 
-  //función para ckeckear si hay un empate, comprobamos que todas las celdas estén
+  //función para ckeckear si el juego terminó, comprobamos que todas las celdas estén
   //rellenas con valor distinto de null
   const checkEndGame = (arrayCells: Board): boolean => {
     return arrayCells.every((cell) => cell !== null); //devuelve true o false
   };
 
-  //función para ir actualizando el tablero y el turno con cada click del usuario:
-  const updateBoard = (index: number): void => {
-    //1. tratamos la variable board:
+  //función para ir actualizando el juego con cada click del usuario:
+  const updateGame = (index: number): void => {
+    //1. actualizamos la variable board:
     //nuevo array con la variable de estado (es importante meterlo en otro array para
     //no alterar el estado)
     const newBoard: Board = [...board];
@@ -91,7 +90,7 @@ function App(): JSX.Element {
     newBoard[index] = turn;
     setBoard(newBoard); //vamos actualizando el array de celdas del tablero
 
-    //2. tratamos la variable turn:
+    //2. actualizamos la variable turn:
     //con un ternario decimos que vaya alternando de valor, si es x que sea o y al revés
     const newTurn = turn === 'x' ? 'o' : 'x';
     setTurn(newTurn);
@@ -127,7 +126,7 @@ function App(): JSX.Element {
           // en este caso indica el valor actual del elemento del array,
           // que en map es obligatorio indicarlo, y pintamos lo siguiente:
           return (
-            <Square key={index} index={index} updateBoard={updateBoard}>
+            <Square key={index} index={index} updateGame={updateGame}>
               {/* cada componente Square tiene dentro children, lo que nos ayuda a
               personalizarlos, aquí será el valor de cada posición del array board */}
               {board[index]?.toUpperCase()}

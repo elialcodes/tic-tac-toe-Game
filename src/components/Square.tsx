@@ -1,17 +1,16 @@
-/* eslint-disable react/react-in-jsx-scope */
 import { ReactNode } from 'react';
 
 interface SquareProps {
   children: ReactNode;
   index?: number;
   isSelected?: boolean;
-  updateBoard?: (index: number) => void;
+  updateGame?: (index: number) => void;
 }
 
-function Square({ children, index, isSelected = false, updateBoard }: SquareProps): JSX.Element {
+function Square({ children, index, isSelected = false, updateGame }: SquareProps): JSX.Element {
   const handleClick = () => {
-    if (updateBoard && index !== undefined) {
-      updateBoard(index);
+    if (updateGame && index !== undefined) {
+      updateGame(index);
     }
   };
 

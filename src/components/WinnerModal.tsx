@@ -1,4 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
 import type { Winner } from '../types';
 import Square from './Square';
 
